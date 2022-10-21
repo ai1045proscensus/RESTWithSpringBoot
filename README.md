@@ -1,4 +1,4 @@
-# RESTWithSpringBoot
+# restful-web-services
 Learn to design Rest APIs and develop RESTFul Webservices using Spring Boot
  
  
