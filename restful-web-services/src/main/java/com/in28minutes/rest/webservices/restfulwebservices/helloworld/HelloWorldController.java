@@ -39,9 +39,9 @@ public class HelloWorldController {
 	// /hello-world/path-variable/{name}
 	// /hello-world/path-variable/Ranga
 
-	@GetMapping(path = "/hello-world/path-variable/{name}")
-	public HelloWorldBean aslödkfj(@PathVariable String name) {
-		return new HelloWorldBean("input: " + name);
+	@GetMapping(path = "/hello-world/path-variable/users/{id}/todos/{id2}")
+	public HelloWorldBean aslödkfj(@PathVariable String id, @PathVariable String id2) {
+		return new HelloWorldBean("id1: " + id + " ; id2: " + id2);
 
 	}
 
