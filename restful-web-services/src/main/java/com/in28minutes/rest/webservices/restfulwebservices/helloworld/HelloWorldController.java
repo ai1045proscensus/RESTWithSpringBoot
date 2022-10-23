@@ -35,6 +35,9 @@ public class HelloWorldController {
 	// @PathVariable
 	// Annotation which indicates that a method parameter should be bound to a URI
 	// template variable. Supported for RequestMapping annotated handler methods.
+
+	//	path variables are nothing but the variable values in your URIs.
+
 	// /users/{id}/todos/{id} => /users/2/todos/200
 	// /hello-world/path-variable/{name}
 	// /hello-world/path-variable/Ranga
