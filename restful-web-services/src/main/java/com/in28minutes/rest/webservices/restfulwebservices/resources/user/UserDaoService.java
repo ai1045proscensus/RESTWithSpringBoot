@@ -25,10 +25,14 @@ public class UserDaoService {
 	
 	private static List<User> users = new ArrayList<>();
 	
+	// Later, we'll actually have a SEQUENCE which is generated
+	// in the DB and we'll be mapping to it using JPA and hibernate.
+	private static int id = 1;
+	
 	static {
-		users.add(new User(1, "Adam", LocalDate.now().minusYears(30)));
-		users.add(new User(2, "Eve", LocalDate.now().minusYears(25)));
-		users.add(new User(3, "Jim", LocalDate.now().minusYears(20)));
+		users.add(new User(id++, "Adam", LocalDate.now().minusYears(30)));
+		users.add(new User(id++, "Eve", LocalDate.now().minusYears(25)));
+		users.add(new User(id++, "Jim", LocalDate.now().minusYears(20)));
 	}
 	
 	
@@ -48,6 +52,10 @@ public class UserDaoService {
 		return theUser;
 	}
 
-	//public User save(User user) {
+	public User persistUser(User user) {
+		user.setId(id++);
+		users.add(user);
+		return user;
+	}
 
 }
