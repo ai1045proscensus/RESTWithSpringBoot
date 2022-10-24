@@ -29,6 +29,7 @@ public class UserDaoService {
 	// in the DB and we'll be mapping to it using JPA and hibernate.
 	private static int id = 1;
 	
+	// da static list => whenever SERVER RESTARTs => the entire LIST gets RESET and you get only 3 users back
 	static {
 		users.add(new User(id++, "Adam", LocalDate.now().minusYears(30)));
 		users.add(new User(id++, "Eve", LocalDate.now().minusYears(25)));
