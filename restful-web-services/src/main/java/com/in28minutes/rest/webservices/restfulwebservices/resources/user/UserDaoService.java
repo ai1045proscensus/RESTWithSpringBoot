@@ -50,6 +50,11 @@ public class UserDaoService {
 				break;
 			}
 		}
+		
+		if (theUser == null) {
+			throw new UserNotFoundException(String.format("USER with user id = %s NOT FOUND. ", id));
+		}
+		
 		return theUser;
 	}
 
