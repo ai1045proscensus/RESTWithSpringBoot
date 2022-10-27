@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -87,5 +88,14 @@ public class UserController {
 		// so mit hardcoded string auch möglich, aber mit ServletUriComponentsBuilder besser:
 		// return ResponseEntity.created(URI.create("users/" + persistedUser.getId())).build();
 	}
+	
+	// Delete a User
+	// DELETE /users/{id} -> /users/1
+	@DeleteMapping(path = "users/{id}")
+	public User deleteUser(@PathVariable int id) {
+		return daoService.deleteUser(id);
+	}
+	
+	
 
 }

@@ -64,4 +64,23 @@ public class UserDaoService {
 		return user;
 	}
 
+
+	public User deleteUser(int id) {
+		User theUser = null;
+		for (User user : users) {
+			if (user.getId() == id) {
+				theUser = user;
+				users.remove(theUser);
+				break;
+			}
+		}
+	
+		
+		if (theUser == null) {
+			throw new UserNotFoundException(String.format("USER to be deleted with user id = %s NOT FOUND. ", id));
+		}
+		
+		return theUser;
+	}
+
 }
