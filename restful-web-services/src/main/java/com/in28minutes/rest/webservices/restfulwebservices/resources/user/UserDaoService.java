@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.in28minutes.rest.webservices.restfulwebservices.exception.UserNotFoundException;
+
 //to be able to play with a DB and to perform operations on entities,
 //You would write a DAO object, data access object/DAO service to manage this.
 

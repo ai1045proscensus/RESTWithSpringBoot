@@ -2,13 +2,13 @@ package com.in28minutes.rest.webservices.restfulwebservices.exception;
 
 import java.time.LocalDateTime;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
-
-import com.in28minutes.rest.webservices.restfulwebservices.resources.user.UserNotFoundException;
 
 //@ControllerAdvice : to be able to be picked up by spring framework. (Specialization of @Component
 // for classes that declare @ExceptionHandler, ...)
@@ -32,10 +32,23 @@ public class CustomizedResponseEntityExceptionHandler {
 	}
 
 	private ErrorDetails getErrorDetails(Exception ex, WebRequest request) {
-		// build our own custom exception object (dh die custom error message und response status)
+		// build our own custom exception object (dh die custom error message und
+		// response status)
 		ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), ex.getMessage(),
 				request.getDescription(false));
 		return errorDetails;
+	}
+
+	// von ResponseEntityExceptionHandler.handleMethodArgumentNotValid: copy, paste
+	// und anpassen
+	// (o override yapti ve annotation yapmadi... yanlis... dann macht er mit
+	// ex.getdetails rum... böyle schon gute errormessage geschenkt)
+	// dieser macht: Customize the response for METHODARGUMENTNOTVALIDEXCEPTION.
+	@ExceptionHandler(value = MethodArgumentNotValidException.class)
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		ErrorDetails errorDetails = getErrorDetails(ex, request);
+		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
 	}
 
 }
