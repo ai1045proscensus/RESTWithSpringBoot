@@ -5,7 +5,12 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,8 +44,48 @@ public class UserController {
 	// Retrieve one User
 	// GET /users/{id} -> /users/1
 	@GetMapping(path = "users/{id}")
-	public User getUser(@PathVariable int id) {
-		return daoService.getUser(id);
+	public EntityModel<User> getUser(@PathVariable int id) {
+		User user = daoService.getUser(id);
+		
+//		HAL (JSON Hypertext Application Language): Simple format („_links“:…)
+//		that gives a consistent and easy way to HYPERLINK BETWEEN RESOURCES IN YOUR API 
+//		Spring HATEOAS: Generate HAL responses with hyperlinks to resources 
+//		(hateoas: in addition to data we return a few links to tell the consumers
+//		 about how to perform other actions)
+//
+//		So whenever you see responses from HAL compatible APIs, you should see links coming back like this:
+//
+//		{
+//		    "name": "Adam",
+//		    "birthDate": "1992-08-19",
+//		    "_links": {
+//		        "all-users": {
+//		            "href": "http://localhost:8080/users"
+//		        }
+//		    }
+//		}
+//
+//		And to be able to generate this kind of response, we can make use of spring hateoas
+		
+//		getUser: in addition to returning the data, I would want to return a link to the
+//		users back. => add a link to //http://localhost:8080/users
+//
+//		=> bunun icin de hateoas’in
+//		//EntityModel: A simple EntityModel wrapping a domain object and adding links to it.
+//		ve
+//		//WebMvcLinkBuilder (um links zu builden)
+//		leri lazim. (wrap the user in entity model.)
+		
+		EntityModel<User> entityModel = EntityModel.of(user);
+		
+//		link pointing to the controller method.
+//		methodOn: pick up the link to a specific method and add it as a link.
+//		(What we want to do is add a link to the retrieve all users method.
+//		I can actually hardcode the URL, but if the URL changes, you have to change the link)
+		WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).retrieveAllUsers());
+
+		entityModel.add(link.withRel("all-users")); // all-users: bezeichner für den link
+		return entityModel;
 	}
 
 	// Create a User
@@ -106,8 +151,13 @@ public class UserController {
 	// Delete a User
 	// DELETE /users/{id} -> /users/1
 	@DeleteMapping(path = "users/{id}")
-	public User deleteUser(@PathVariable int id) {
-		return daoService.deleteUser(id);
+	public EntityModel<User> deleteUser(@PathVariable int id) {
+		User user = daoService.deleteUser(id);
+		EntityModel<User> entityModel = EntityModel.of(user);
+		WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).retrieveAllUsers());
+		entityModel.add(link.withRel("remaining-users")); 
+		return entityModel;
+
 	}
 
 }
