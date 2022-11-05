@@ -9,7 +9,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -66,6 +65,8 @@ public class UserController {
 //		}
 //
 //		And to be able to generate this kind of response, we can make use of spring hateoas
+		
+//		(if your API is compliant with HAL, you can use Hal Explorer to explore the API.)
 		
 //		getUser: in addition to returning the data, I would want to return a link to the
 //		users back. => add a link to //http://localhost:8080/users
@@ -155,7 +156,7 @@ public class UserController {
 		User user = daoService.deleteUser(id);
 		EntityModel<User> entityModel = EntityModel.of(user);
 		WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).retrieveAllUsers());
-		entityModel.add(link.withRel("remaining-users")); 
+		entityModel.add(link.withRel("remaining-users"));
 		return entityModel;
 
 	}
