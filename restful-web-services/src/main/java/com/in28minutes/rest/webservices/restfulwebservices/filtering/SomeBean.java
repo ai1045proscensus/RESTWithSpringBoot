@@ -1,19 +1,27 @@
 package com.in28minutes.rest.webservices.restfulwebservices.filtering;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
-//You can either use @JsonIgnore or @JsonIgnoreProperties to implement static filtering.
-//prefer using @JsonIgnore because even if attribut name changes, you don't have to change it
+// You can either use @JsonIgnore or @JsonIgnoreProperties to implement static filtering.
+// static: applies to ALL rest-apis (filtering, filtering-list, ...)
+// dynamic: bestimmst du selbst (return different attributes for the same bean in different rest API 
+// prefer using @JsonIgnore because even if attribut name changes, you don't have to change it
 // in argument list of @JsonIgnoreProperties also...
 
-@JsonIgnoreProperties({"field1", "field3"}) // hier kann man at class-level attribute angeben...
+// Dynamic: because we want to filter differently in different rest API methods
+// We cannot define filtering on the bean itself sondern in your rest API methods.
+// => MappingJacksonValue: allows you to set filters
+
+// @JsonIgnoreProperties({"field1", "field3"}) // hier kann man at class-level attribute angeben...
+@JsonFilter("SomeBeanFilter") // NOTWENDIG, sonst greifen filter nicht (in FilteringController definiert)
 public class SomeBean {
 
 	private String field1;
 	
-	@JsonIgnore // ... und hier auf attribut level... besser...
+//	@JsonIgnore // ... und hier auf attribut level... besser...
 	private String field2;
 	
 	private String field3;
