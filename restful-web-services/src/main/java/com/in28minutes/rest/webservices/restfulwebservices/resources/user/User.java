@@ -3,6 +3,10 @@ package com.in28minutes.rest.webservices.restfulwebservices.resources.user;
 import java.time.LocalDate;
 
 import javax.annotation.Resource;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
@@ -10,8 +14,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 // Resource
 @Resource
+//wir müssen Klasse "User" für jpa anderen namen geben, weil user ist keyword in h2 => console fehler
+@Entity(name = "user_details")
 public class User {
 	
+	@Id
+	@GeneratedValue
 	private int id;
 	
 	@Size(min = 2)
