@@ -1,3 +1,8 @@
+/*
+ * diese datei MUSS so heissen! (data.sql)...
+ */
+
+
 insert into user_details(id, birth_date, name)
 values (10001, current_date() /*function in h2*/, 'ai2045');
 
