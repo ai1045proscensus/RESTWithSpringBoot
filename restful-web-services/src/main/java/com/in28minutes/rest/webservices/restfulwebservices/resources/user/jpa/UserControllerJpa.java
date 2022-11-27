@@ -2,7 +2,6 @@
  * UserController kopiert damit rumspielen können...
  */
 
-
 package com.in28minutes.rest.webservices.restfulwebservices.resources.user.jpa;
 
 import java.net.URI;
@@ -31,8 +30,24 @@ import com.in28minutes.rest.webservices.restfulwebservices.resources.user.UserDa
 @RestController
 public class UserControllerJpa {
 
-	@Autowired
 	UserDaoService daoService;
+
+	UserRepository repo;
+
+	/**
+	 * in the intermediate period well have some of the methods talk to user
+	 * repository and some to Dao service. And slowly we'll
+	 * switch all the methods which are talking to the user Dao service to talk to
+	 * user repository.
+	 * 
+	 * @param daoService
+	 * @param repo
+	 */
+	public UserControllerJpa(UserDaoService daoService, UserRepository repo) {
+		super();
+		this.daoService = daoService;
+		this.repo = repo;
+	}
 
 	// autowiring geht auch über KONSTRUKTOR-INJECTION, OHNE @Autowired!
 	//
@@ -45,7 +60,7 @@ public class UserControllerJpa {
 	// GET /users
 	@GetMapping(path = "/springdatajpa/users")
 	public List<User> retrieveAllUsers() {
-		return daoService.findAll();
+		return repo.findAll();
 	}
 
 	// Retrieve one User
@@ -53,7 +68,7 @@ public class UserControllerJpa {
 	@GetMapping(path = "/springdatajpa/users/{id}")
 	public EntityModel<User> getUser(@PathVariable int id) {
 		User user = daoService.getUser(id);
-		
+
 //		HAL (JSON Hypertext Application Language): Simple format („_links“:…)
 //		that gives a consistent and easy way to HYPERLINK BETWEEN RESOURCES IN YOUR API 
 //		Spring HATEOAS: Generate HAL responses with hyperlinks to resources 
@@ -73,9 +88,9 @@ public class UserControllerJpa {
 //		}
 //
 //		And to be able to generate this kind of response, we can make use of spring hateoas
-		
+
 //		(if your API is compliant with HAL, you can use Hal Explorer to explore the API.)
-		
+
 //		getUser: in addition to returning the data, I would want to return a link to the
 //		users back. => add a link to //http://localhost:8080/users
 //
@@ -84,9 +99,9 @@ public class UserControllerJpa {
 //		ve
 //		//WebMvcLinkBuilder (um links zu builden)
 //		leri lazim. (wrap the user in entity model.)
-		
+
 		EntityModel<User> entityModel = EntityModel.of(user);
-		
+
 //		link pointing to the controller method.
 //		methodOn: pick up the link to a specific method and add it as a link.
 //		(What we want to do is add a link to the retrieve all users method.

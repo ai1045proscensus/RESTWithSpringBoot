@@ -39,6 +39,14 @@ public class User {
 		this.name = name;
 		this.birthDate = birthDate;
 	}
+	
+	
+
+	public User() {
+		super();
+	}
+
+
 
 	public int getId() {
 		return id;
