@@ -43,14 +43,14 @@ public class UserControllerJpa {
 	// }
 
 	// GET /users
-	@GetMapping(path = "users")
+	@GetMapping(path = "/springdatajpa/users")
 	public List<User> retrieveAllUsers() {
 		return daoService.findAll();
 	}
 
 	// Retrieve one User
 	// GET /users/{id} -> /users/1
-	@GetMapping(path = "users/{id}")
+	@GetMapping(path = "/springdatajpa/users/{id}")
 	public EntityModel<User> getUser(@PathVariable int id) {
 		User user = daoService.getUser(id);
 		
@@ -99,7 +99,7 @@ public class UserControllerJpa {
 
 	// Create a User
 	// POST /users
-	@PostMapping("users")
+	@PostMapping("/springdatajpa/users")
 	// content typically is sent as part of the request body.
 	// the way we can accept that is by using @RequestBody:
 	// Annotation indicating a METHOD PARAMETER SHOULD BE BOUND TO THE BODY OF THE
@@ -159,7 +159,7 @@ public class UserControllerJpa {
 
 	// Delete a User
 	// DELETE /users/{id} -> /users/1
-	@DeleteMapping(path = "users/{id}")
+	@DeleteMapping(path = "/springdatajpa/users/{id}")
 	public EntityModel<User> deleteUser(@PathVariable int id) {
 		User user = daoService.deleteUser(id);
 		EntityModel<User> entityModel = EntityModel.of(user);
