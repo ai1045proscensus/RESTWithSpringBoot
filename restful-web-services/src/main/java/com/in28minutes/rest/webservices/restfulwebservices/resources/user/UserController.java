@@ -35,14 +35,14 @@ public class UserController {
 	// }
 
 	// GET /users
-	@GetMapping(path = "users")
+	@GetMapping(path = "/hardcoded/users")
 	public List<User> retrieveAllUsers() {
 		return daoService.findAll();
 	}
 
 	// Retrieve one User
 	// GET /users/{id} -> /users/1
-	@GetMapping(path = "users/{id}")
+	@GetMapping(path = "/hardcoded/users/{id}")
 	public EntityModel<User> getUser(@PathVariable int id) {
 		User user = daoService.getUser(id);
 		
@@ -91,7 +91,7 @@ public class UserController {
 
 	// Create a User
 	// POST /users
-	@PostMapping("users")
+	@PostMapping("/hardcoded/users")
 	// content typically is sent as part of the request body.
 	// the way we can accept that is by using @RequestBody:
 	// Annotation indicating a METHOD PARAMETER SHOULD BE BOUND TO THE BODY OF THE
@@ -151,7 +151,7 @@ public class UserController {
 
 	// Delete a User
 	// DELETE /users/{id} -> /users/1
-	@DeleteMapping(path = "users/{id}")
+	@DeleteMapping(path = "/hardcoded/users/{id}")
 	public EntityModel<User> deleteUser(@PathVariable int id) {
 		User user = daoService.deleteUser(id);
 		EntityModel<User> entityModel = EntityModel.of(user);
