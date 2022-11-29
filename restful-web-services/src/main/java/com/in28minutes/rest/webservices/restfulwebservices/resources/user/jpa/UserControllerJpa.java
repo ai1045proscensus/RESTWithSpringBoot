@@ -6,6 +6,7 @@ package com.in28minutes.rest.webservices.restfulwebservices.resources.user.jpa;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -67,7 +68,7 @@ public class UserControllerJpa {
 	// GET /users/{id} -> /users/1
 	@GetMapping(path = "/springdatajpa/users/{id}")
 	public EntityModel<User> getUser(@PathVariable int id) {
-		User user = daoService.getUser(id);
+		Optional<User> user = repo.findById(id);
 
 //		HAL (JSON Hypertext Application Language): Simple format („_links“:…)
 //		that gives a consistent and easy way to HYPERLINK BETWEEN RESOURCES IN YOUR API 
@@ -100,7 +101,7 @@ public class UserControllerJpa {
 //		//WebMvcLinkBuilder (um links zu builden)
 //		leri lazim. (wrap the user in entity model.)
 
-		EntityModel<User> entityModel = EntityModel.of(user);
+		EntityModel<User> entityModel = EntityModel.of(user.get());
 
 //		link pointing to the controller method.
 //		methodOn: pick up the link to a specific method and add it as a link.
@@ -135,7 +136,7 @@ public class UserControllerJpa {
 		// "Visuelle Interaktion mit REST, SOAP und HTTP APIs.
 		// Send requests and inspect responses"
 		// (Chrome extension)
-		User persistedUser = daoService.persistUser(user);
+		User persistedUser = repo.save(user);
 
 		// in ResponseEntity there are different methods for different statuses
 		// (accepted, bad request created, no content, not found.
