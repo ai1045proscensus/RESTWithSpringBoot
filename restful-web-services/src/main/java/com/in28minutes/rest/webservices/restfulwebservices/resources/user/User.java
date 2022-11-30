@@ -23,13 +23,13 @@ public class User {
 	private int id;
 	
 	@Size(min = 2)
-	@JsonProperty("user_name(alias)") // i wouldnt use this anno, sorgt für verwirrung (namen unterschiedlich)
+	//@JsonProperty("user_name(alias)") // i wouldnt use this anno, sorgt für verwirrung (namen unterschiedlich)
 	private String name;
 	// auch selber Fehlermeldung angebbar:
 	// @Size(min = 2, message = "size must be bigger than 2 bla AÖLSDKFJASLÖDFKJASÖLDKFJLSAÖKDFJSLÖDKFJ")
 	
 	@Past
-	@JsonProperty("dogum günü aliasi") 
+	//@JsonProperty("dogum günü aliasi") 
 	private LocalDate birthDate;
 	// auch hier mit message fehlermeldung angebbar..
 	

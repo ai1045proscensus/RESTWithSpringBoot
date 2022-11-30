@@ -31,8 +31,6 @@ import com.in28minutes.rest.webservices.restfulwebservices.resources.user.UserDa
 @RestController
 public class UserControllerJpa {
 
-	UserDaoService daoService;
-
 	UserRepository repo;
 
 	/**
@@ -44,9 +42,8 @@ public class UserControllerJpa {
 	 * @param daoService
 	 * @param repo
 	 */
-	public UserControllerJpa(UserDaoService daoService, UserRepository repo) {
+	public UserControllerJpa(UserRepository repo) {
 		super();
-		this.daoService = daoService;
 		this.repo = repo;
 	}
 
@@ -176,12 +173,8 @@ public class UserControllerJpa {
 	// Delete a User
 	// DELETE /users/{id} -> /users/1
 	@DeleteMapping(path = "/springdatajpa/users/{id}")
-	public EntityModel<User> deleteUser(@PathVariable int id) {
-		User user = daoService.deleteUser(id);
-		EntityModel<User> entityModel = EntityModel.of(user);
-		WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).retrieveAllUsers());
-		entityModel.add(link.withRel("remaining-users"));
-		return entityModel;
+	public void deleteUser(@PathVariable int id) {
+		repo.deleteById(id);
 
 	}
 
